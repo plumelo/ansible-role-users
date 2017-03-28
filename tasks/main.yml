@@ -1,1 +1,35 @@
 ---
+- name: Per-user group creation
+  group: name="{{ item.name }}" gid="{{ item.gid if item.gid is defined else item.uid }}"
+  with_items: "{{ users }}"
+  when: "'group' not in item and users_group_per_user"
+
+- name: Create users
+  user:
+    name: "{{ item.name }}"
+    group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
+    groups: "{{ item.groups }}"
+    shell: "{{ item.shell if item.shell is defined else users_shell }}"
+  with_items: "{{ users }}"
+
+- name: Add authorized ssh key
+  authorized_key: user={{ item.0.name }} key="{{ item.1 }}"
+  become: yes
+  become_user: "{{ item.0.name }}"
+  with_subelements:
+    - "{{ users_users }}"
+    - authorized
+
+- name: Add dotfiles blocks
+  become: yes
+  become_user: "{{ item.0.name }}"
+  blockinfile:
+    dest: "{{ item.1.file }}"
+    block: "{{ item.1.block }}"
+    owner: "{{ item.0.name }}"
+    marker: "#{mark} {{ item.1.marker|default("") }}"
+    mode: 0644
+    create: true
+  with_subelements:
+    - "{{ users_users }}"
+    - dotfiles

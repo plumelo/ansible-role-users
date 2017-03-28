@@ -1,2 +1,3 @@
 ---
-# defaults file for users
+users_group_per_user: yes
+users_shell: /bin/bash
