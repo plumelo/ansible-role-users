@@ -1,4 +1,6 @@
 #{{ ansible_managed }}
-{{ item.name }} ALL=(ALL) NOPASSWD: ALL
-# Allow SSH agent forwarding when using sudo
-{{ item.name }}  env_keep+=SSH_AUTH_SOCK
+{% if item.sudo|default(False) %}
+  {{ item.name }} ALL=(ALL) NOPASSWD: ALL
+  # Allow SSH agent forwarding when using sudo
+  {{ item.name }}  env_keep+=SSH_AUTH_SOCK
+{% endif %}

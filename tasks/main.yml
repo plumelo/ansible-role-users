@@ -7,9 +7,11 @@
 - name: Create users
   user:
     name: "{{ item.name }}"
-    group: "{{ item.group | default(item.name if users_group_per_user else users_group) }}"
-    groups: "{{ item.groups|default(omit) }}"
-    shell: "{{ item.shell if item.shell is defined else users_shell }}"
+    group: "{{ item.group|default(item.name if users_group_per_user else users_group) }}"
+    groups: "{{ (item.groups|default([]) + item.sudo|default(False)|ternary(['sudo'],[]))|join(',') }}"
+    shell: "{{ (item.shell|default(users_shell))|default(omit) }}"
+    createhome: "{{ item.createhome|default(omit) }}"
+    comment: "{{ item.comment|default(omit) }}"
   with_items: "{{ users_users }}"
 
 - name: Add authorized ssh key
@@ -19,6 +21,8 @@
   with_subelements:
     - "{{ users_users }}"
     - authorized
+    - flags:
+      skip_missing: true
 
 - name: Add dotfiles blocks
   become: yes
@@ -33,8 +37,9 @@
   with_subelements:
     - "{{ users_users }}"
     - dotfiles
-    
+    - flags:
+      skip_missing: true
+
 - name: Add sudo users
-  template: src=etc/sudoers.d/sudo.j2 dest=/etc/sudoers.d/{{ item.name }} owner=root group=root mode=0440 force=no
-  when: "item.sudo|default(False)"
+  template: src=etc/sudoers.d/sudo.j2 dest=/etc/sudoers.d/{{ item.name }} owner=root group=root mode=0440 force=yes
   with_items: "{{ users_users }}"
