@@ -2,7 +2,7 @@
 - name: Per-user group creation
   group: name="{{ item.name }}" gid="{{ (item.gid | default(item.uid)) | default(omit) }}"
   with_items: "{{ users_users }}"
-  when: "{{ 'group' not in item and users_group_per_user }}"
+  when: '"group" not in item and users_group_per_user'
 
 - name: Create users
   user:
@@ -43,3 +43,4 @@
 - name: Add sudo users
   template: src=etc/sudoers.d/sudo.j2 dest=/etc/sudoers.d/{{ item.name }} owner=root group=root mode=0440 force=yes
   with_items: "{{ users_users }}"
+  when: 'item.sudo|default(False)'
