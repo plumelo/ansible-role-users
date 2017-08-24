@@ -1,4 +1,4 @@
 ---
 users_group_per_user: yes
 users_shell: /bin/bash
-users_users: [ ]
+users_users: []
