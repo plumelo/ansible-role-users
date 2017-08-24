@@ -1,17 +1,34 @@
-Role Name
+users
 =========
 
-A brief description of the role goes here.
+This role creates and configures system users.
+
+[![Build Status](https://travis-ci.org/plumelo/ansible-role-users.svg?branch=master)](https://travis-ci.org/plumelo/ansible-role-users)
+
+Install
+-------
+
+ansible-galaxy install plumelo.users
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role requires Ansible 2.0 or higher and platform requirements are listed in the metadata file.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The variables that can be passed to this role and a brief description about them are as follows. (For all variables, take a look at defaults/main.yml)
+
+- name: "user"
+    authorized:
+      - "ssh-rsa AA... user@host"
+    dotfiles:
+      - file: '~/.bashrc'
+        block: |
+          export LC_ALL="en_US.UTF-8"
+        marker: "#{mark} Language defaults"
+    sudo: true
 
 Dependencies
 ------------
