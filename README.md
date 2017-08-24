@@ -18,9 +18,10 @@ This role requires Ansible 2.0 or higher and platform requirements are listed in
 Role Variables
 --------------
 
-The variables that can be passed to this role and a brief description about them are as follows. (For all variables, take a look at defaults/main.yml)
+The variables that can be passed to this role and a brief description about them are as follows. ( For all variables, take a look at defaults/main.yml )
 
-- name: "user"
+   ```
+   name: "user"
     authorized:
       - "ssh-rsa AA... user@host"
     dotfiles:
