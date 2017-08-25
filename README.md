@@ -15,6 +15,11 @@ Requirements
 
 This role requires Ansible 2.0 or higher and platform requirements are listed in the metadata file.
 
+Install
+-------
+
+```sh
+ansible-galaxy install plumelo.users
 Role Variables
 --------------
 
