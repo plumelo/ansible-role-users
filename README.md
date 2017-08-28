@@ -24,7 +24,7 @@ The variables that can be passed to this role and a brief description about them
 For all variables, take a look at [defaults/main.yml](https://github.com/plumelo/ansible-role-users/blob/master/defaults/main.yml)
 
 ```yaml
-# when we make a new user automatically make the user group
+# create groups with the same name for each user
   users_group_per_user: yes
 
 # choose the user shell(bash,zsh,fish,etc)
@@ -42,7 +42,7 @@ Install role plumelo.users
       roles:
          - role: plumelo.users
 
-And make a new user
+Create a new user
 
     name: "user"
       authorized:
