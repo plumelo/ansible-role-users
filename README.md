@@ -4,7 +4,7 @@ users
 This role creates and configures system users.
 
 [![Build Status](https://travis-ci.org/plumelo/ansible-role-users.svg?branch=master)](https://travis-ci.org/plumelo/ansible-role-users)
-[![Ansible Galaxy](https://img.shields.io/badge/style-plumelo.users-blue.svg?style=flat&label=roles&test=plumelo.users)](https://galaxy.ansible.com/plumelo/users/)
+[![Ansible Galaxy](https://img.shields.io/badge/style-plumelo.users-blue.svg?style=flat&label=role&test=plumelo.users)](https://galaxy.ansible.com/plumelo/users/)
 
 Requirements
 ------------
