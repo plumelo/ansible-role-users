@@ -36,23 +36,26 @@ For all variables, take a look at [defaults/main.yml](https://github.com/plumelo
 Example Playbook
 ----------------
 ```yaml
-Install role plumelo.users
 
-    - hosts: servers
-      roles:
-         - role: plumelo.users
+# Install role plumelo.users
+- hosts: servers
+  roles:
+     - role: plumelo.users
 
-Create a new user
+#Create a new user
 
-    name: "user"
-      authorized:
-        - "ssh-rsa AA...user@domain"
-      dotfiles:
-        - file: '~/.bashrc'
-          block: |
-            export LC_ALL="en_US.UTF-8"
-          marker: "#{mark} Language defaults"
-      sudo: true
+name: "user"
+  # list of authorized ssh keys 
+  authorized:
+    - "ssh-rsa AA...user@domain"
+  # list of dotifles to create
+  dotfiles:
+    - file: '~/.bashrc'
+      block: |
+        export LC_ALL="en_US.UTF-8"
+      marker: "#{mark} Language defaults"
+  # add user to sudoers
+  sudo: true
 ```
   Dependencies
   ------------
