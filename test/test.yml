@@ -1,4 +1,40 @@
 ---
-- hosts: localhost
+- hosts: all
+  become: true
+  vars:
+    users_users:
+      - name: testuser
+        # authorized keys
+        authorized:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYFR95ZsG5QvMoZ+960x+1TdgbuZmgeKyhrozWs9WjYV4lYNHbEx8kxf4H5GWQGYE45RQ4O6ZRKeyYu+vnRuVXijs5Uy9bguRnfKuYD/UkYe4r8vK2+m46hbtyrENvtbdICRANB4XwKlFvxS5fTbkaqOBccusWsr5yCymrB76GWujzlGxEQroalWZywfCziV8LKaGtbPS5xQRBWzruQ61LPGbbeDfnaxo7uofqJvt+snh0/gnl4TBu69Bh1MRrPR8gubB/tFSsvGhlVeNBuz9N9ZgleIPrSAcPBIcrgIGiq8BE/m3kUyz1rJSz07ZiI4cto4PWKoipJ5GjYb1WCAIl test@test"
+        # list of dotifles to create
+        dotfiles:
+          - file: '~/.bashrc'
+            block: |
+              export LC_ALL="en_US.UTF-8"
+            marker: "#{mark} Language defaults"
+        sudo: true
+
   roles:
     - plumelo.users
+
+  tasks:
+    - shell: cat ~/.ssh/authorized_keys
+      become_user: "{{ users_users[0].name }}"
+      register: authorized_register
+      changed_when: no
+
+    - shell: cat ~/.bashrc
+      become_user: "{{ users_users[0].name }}"
+      register: bashrc_register
+      changed_when: no
+
+    - assert:
+        that:
+          - "'{{ users_users[0].authorized[0] }}' in authorized_register.stdout"
+        msg: "Authorized key must be added"
+
+    - assert:
+        that:
+          - "'{{ users_users[0].dotfiles[0].block }}' in bashrc_register.stdout"
+        msg: "Authorized key must be added"
