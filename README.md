@@ -4,6 +4,7 @@ users
 This role creates and configures system users.
 
 [![Build Status](https://travis-ci.org/plumelo/ansible-role-users.svg?branch=master)](https://travis-ci.org/plumelo/ansible-role-users)
+[![Ansible Galaxy](https://img.shields.io/badge/style-plumelo.users-blue.svg?style=flat&label=role&test=plumelo.users)](https://galaxy.ansible.com/plumelo/users/)
 
 Requirements
 ------------
@@ -24,7 +25,7 @@ The variables that can be passed to this role and a brief description about them
 For all variables, take a look at [defaults/main.yml](https://github.com/plumelo/ansible-role-users/blob/master/defaults/main.yml)
 
 ```yaml
-# when we make a new user automatically make the user group
+# create groups with the same name for each user
   users_group_per_user: yes
 
 # choose the user shell(bash,zsh,fish,etc)
@@ -36,23 +37,26 @@ For all variables, take a look at [defaults/main.yml](https://github.com/plumelo
 Example Playbook
 ----------------
 ```yaml
-Install role plumelo.users
 
-    - hosts: servers
-      roles:
-         - role: plumelo.users
+# Install role plumelo.users
+- hosts: servers
+  roles:
+     - role: plumelo.users
 
-And make a new user
+#Create a new user
 
-    name: "user"
-      authorized:
-        - "ssh-rsa AA...user@domain"
-      dotfiles:
-        - file: '~/.bashrc'
-          block: |
-            export LC_ALL="en_US.UTF-8"
-          marker: "#{mark} Language defaults"
-      sudo: true
+name: "user"
+  # list of authorized ssh keys 
+  authorized:
+    - "ssh-rsa AA...user@domain"
+  # list of dotifles to create
+  dotfiles:
+    - file: '~/.bashrc'
+      block: |
+        export LC_ALL="en_US.UTF-8"
+      marker: "#{mark} Language defaults"
+  # add user to sudoers
+  sudo: true
 ```
   Dependencies
   ------------
