@@ -13,7 +13,7 @@
             block: |
               export LC_ALL="en_US.UTF-8"
             marker: "#{mark} Language defaults"
-        sudo: true
+        sudo: yes
 
   roles:
     - plumelo.users
@@ -29,6 +29,10 @@
       register: bashrc_register
       changed_when: no
 
+    - shell: "cat /etc/sudoers.d/{{ users_users[0].name }}"
+      register: sudoers_register
+      changed_when: no
+
     - assert:
         that:
           - "'{{ users_users[0].authorized[0] }}' in authorized_register.stdout"
@@ -37,4 +41,9 @@
     - assert:
         that:
           - "'{{ users_users[0].dotfiles[0].block }}' in bashrc_register.stdout"
-        msg: "Authorized key must be added"
+        msg: "Dotfiles must be added"
+
+    - assert:
+        that:
+          - "'{{ users_users[0].name }} ALL=(ALL) NOPASSWD: ALL' in sudoers_register.stdout"
+        msg: "Sudo must be added"
