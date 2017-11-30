@@ -1,0 +1,7 @@
+---
+
+- hosts: 'users'
+  become: True
+
+  roles:
+    - role: 'ansible-role-users'
