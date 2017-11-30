@@ -1,0 +1,25 @@
+---
+language: python
+python: "2.7"
+
+# Use the new container infrastructure
+sudo: required
+
+# Install ansible
+addons:
+  apt:
+    packages:
+      - python-pip
+      - python-pycurl
+
+install:
+  - pip install ansible ansible-lint
+  - ansible --version
+
+script:
+  - ansible-lint tasks/main.yml
+  - ansible-playbook -i test/inventory --syntax-check --list-tasks test/test.yml
+  - ansible-playbook -i test/inventory --connection=local --sudo -vvvv test/test.yml -u root
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

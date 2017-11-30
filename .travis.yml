@@ -1,25 +1,13 @@
----
-language: python
-python: "2.7"
+# Ensure Python 2.7.x is being used
+language: 'python'
+python: '2.7'
 
-# Use the new container infrastructure
-sudo: required
+# Use system installed packages inside of the Virtual environment
+virtualenv:
+  system_site_packages: True
 
-# Install ansible
-addons:
-  apt:
-    packages:
-      - python-pip
-      - python-pycurl
+# Skip running these which boosts the Travis boot time
+before_install: True
+install: True
 
-install:
-  - pip install ansible ansible-lint
-  - ansible --version
-
-script:
-  - ansible-lint tasks/main.yml
-  - ansible-playbook -i test/inventory --syntax-check --list-tasks test/test.yml
-  - ansible-playbook -i test/inventory --connection=local --sudo -vvvv test/test.yml -u root
-
-notifications:
-  webhooks: https://galaxy.ansible.com/api/v1/notifications/
+script: ./specs.sh --install ansible-role-users
