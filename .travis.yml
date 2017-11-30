@@ -1,4 +1,4 @@
-sudo: required
+# sudo: required
 # Ensure Python 2.7.x is being used
 language: 'python'
 python: '2.7'
