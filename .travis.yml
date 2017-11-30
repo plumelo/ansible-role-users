@@ -1,14 +1,15 @@
-# sudo: required
-# # Ensure Python 2.7.x is being used
-# language: 'python'
-# python: '2.7'
+sudo: required
+# Ensure Python 2.7.x is being used
+language: 'python'
+python: '2.7'
 
-# # Use system installed packages inside of the Virtual environment
-# virtualenv:
-#   system_site_packages: True
+# Use system installed packages inside of the Virtual environment
+virtualenv:
+  system_site_packages: True
 
-# # Skip running these which boosts the Travis boot time
-# before_install: True
-# install: True
+# Skip running these which boosts the Travis boot time
+before_install: True
+install: True
 
-script: ./specs.sh --install ansible-role-users
+script:
+  - ./specs.sh --install ansible-role-users
