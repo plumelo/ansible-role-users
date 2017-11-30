@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: 'users'
   become: True
   vars:
     users_users:
