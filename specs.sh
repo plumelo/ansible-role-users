@@ -65,7 +65,7 @@ function install() {
 
   # Install Git
   sudo apt update
-  sudo apt-get install -y git build-essential
+  sudo apt-get install -y git build-essential acl
 
   # Fetch and install rolespec
   su_wrap 'git clone https://github.com/nickjj/rolespec.git'
