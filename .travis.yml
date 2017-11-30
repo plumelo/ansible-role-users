@@ -11,4 +11,4 @@
 # before_install: True
 # install: True
 
-script: ./specs.sh --install <ansible-role-users>
+script: ./specs.sh --install ansible-role-users
