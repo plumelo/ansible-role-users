@@ -11,4 +11,4 @@ virtualenv:
 before_install: True
 install: True
 
-script: sudo ./specs.sh --install ansible-role-users
+script: sudo travis -c './specs.sh --install ansible-role-users'
